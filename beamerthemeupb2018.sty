@@ -5,7 +5,7 @@
 % beamerthemeupb2018.sty
 % Max Hoffmann
 % max.hoffmann@math.upb.de
-% Version: 19/12/2018
+% Version: 31/01/2019
 
 % This is suggestion for using the Paderborn University corperated design
 % in LaTeX-Beamer. Feel free to optimize this implementation.
@@ -336,8 +336,12 @@
 
 
 % TEMPLATE FOR THE FOOTER
-\setbeamertemplate{footline}
+% We use the sidebar template for the footline-network image in order
+% to guarantee that the network-nodes are drawn on the background layer
+% of the slides.
+\setbeamertemplate{sidebar canvas left}
 {
+	\rule{0pt}{.64\paperheight}
 	\begin{tikzpicture}
 		\coordinate (bottomleft) at (\the\paperwidth-8mm,.25);
   		\useasboundingbox (0,0) rectangle (\the\paperwidth-7mm,.01);
@@ -354,14 +358,24 @@
 		\draw[dashed, color=netcol] (3)--(1)--(2)--(5);
 		\draw[dashed, color=netcol] (1)--(4)--(2)--(6);
 
+  	\end{tikzpicture}
+}
+
+% The author and slide numbers are drawn on the foreground layer and thus
+% always lie above all other slide elements.
+\setbeamertemplate{footline}
+{
+	\begin{tikzpicture}
+		\coordinate (bottomleft) at (\the\paperwidth-8mm,.25);
+  		\useasboundingbox (0,0) rectangle (\the\paperwidth-7mm,.01);
+
 		% add author and frame number
   		\node[anchor=south west, align = flush left, inner sep = 0,
-  			color = upbblue] at (.7,.25) {\insertauthor};
+  			color = upbblue] at (.7,.25) {\normalsize \insertauthor};
   		\node[anchor=south east, align = flush right, inner sep = 0,
   			color = upbblue] at (bottomleft) {\footnotesize \insertframenumber};
   	\end{tikzpicture}
 }
-
 
 
 
